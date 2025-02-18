@@ -8,29 +8,33 @@ Gin is a high-performance web framework for the Go programming language. It is d
 
 - Gin is built with performance in mind. It uses a custom version of the HTTP router, which is optimized for speed and efficiency.
 
-1. **Middleware Support** :
+2. **Middleware Support** :
 
 - Gin provides a flexible and easy-to-use middleware system. You can use built-in middleware or create your own to handle tasks such as logging, authentication, and error handling.
 
-1. **Routing** :
+3. **Routing** :
 
 - Gin offers a powerful and flexible routing system. You can define routes with parameters, groups, and nested groups to organize your application's endpoints.
 
-1. **JSON Handling** :
+4. **JSON Handling** :
 
 - Gin makes it easy to work with JSON data. It provides built-in support for JSON serialization and deserialization, making it simple to build APIs that consume and produce JSON.
 
-1. **Error Handling** :
+5. **Error Handling** :
 
 - Gin includes a robust error handling mechanism. You can define custom error handlers to manage different types of errors and provide meaningful responses to clients.
 
-1. **Context** :
+6. **Context** :
 
 - Gin's `Context` object is a powerful tool that provides access to request and response data, query parameters, form data, and more. It simplifies handling HTTP requests and responses.
 
-1. **Built-in Middleware** :
+7. **Built-in Middleware** :
 
 - Gin comes with several built-in middleware functions, such as logging, recovery (panic recovery), and CORS (Cross-Origin Resource Sharing).
+
+### Example Usage
+
+Here is a simple example of how to use Gin to create a basic web server:
 
 ```
 package mainimport (
