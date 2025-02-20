@@ -9,8 +9,8 @@ import (
 
 type Gopher struct {
 	ID        string `json:"id"`
-	FirstName string `json:"firstname"`
-	LastName  string `json:"lastname"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
 }
 
 var gophers = []Gopher{
@@ -30,27 +30,29 @@ func main() {
 
 /*
 c.IndentedJSON(http.StatusOK, gopher)
- -automatically sets content type to application/json
- -uses passed in status code
- -serializes given struct as pretty JSON
+
+	-automatically sets content type to application/json
+	-uses passed in status code
+	-serializes given struct as pretty JSON
 */
 func getGophers(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gophers)
 }
 
 /*
-c.BindJSON(&newGohper)
- -binds JSON to struct pointer
- -we handle any errors
+c.BindJSON(&newGopher)
+
+	-binds JSON to struct pointer
+	-we handle any errors
 */
 func createGopher(c *gin.Context) {
-	var newGohper Gopher
-	err := c.BindJSON(&newGohper)
+	var newGopher Gopher
+	err := c.BindJSON(&newGopher)
 	if err != nil {
 		c.String(http.StatusBadRequest, err.Error())
 		return
 	}
-	gophers = append(gophers, newGohper)
+	gophers = append(gophers, newGopher)
 	c.IndentedJSON(http.StatusCreated, gophers)
 }
 
