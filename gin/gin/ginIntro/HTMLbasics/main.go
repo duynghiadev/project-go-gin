@@ -64,9 +64,11 @@ func getManyData(c *gin.Context) {
 	foods := []string{"chicken sandwich", "fries", "soda", "cookie"}
 	// H is a shortcut for map[string]interface{}
 	// type H map[string]interface{}
+	// Pass multiple variables to the template using gin.H
 	c.HTML(http.StatusOK, "manyData.html", gin.H{
 		"name":  "Carl",
 		"foods": foods,
+		"test":  true,
 	})
 }
 
