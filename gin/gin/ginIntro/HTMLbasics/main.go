@@ -37,11 +37,10 @@ func main() {
 // GET /hello
 func getHello(c *gin.Context) {
 	// String writes the given string into the response body.
-	// http.StautsOK is http status code saved as constant in http package
+	// http.StatusOK is http status code saved as constant in http package
 	// func (c *Context) String(code int, format string, values ...interface{})
 	c.String(http.StatusOK, "Hello World!")
 }
-
 
 // GET /greet
 func getGreet(c *gin.Context) {
