@@ -36,7 +36,7 @@ Gin is a high-performance web framework for the Go programming language. It is d
 
 Here is a simple example of how to use Gin to create a basic web server:
 
-```
+```golang
 package mainimport (
     "net/http"    "github.com/gin-gonic/gin"
 )func main() {
