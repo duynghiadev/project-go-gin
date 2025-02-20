@@ -16,7 +16,7 @@ type movie struct {
 	Price    string `json:"price"`
 }
 
-// movies slice for demonstration, really want db for persistance
+// movies slice for demonstration, really want db for persistence
 var movies = []movie{
 	{ID: "1", Title: "The Dark Knight", Director: "Christopher Nolan", Price: "5.99"},
 	{ID: "2", Title: "Tommy Boy", Director: "Peter Segal", Price: "2.99"},
@@ -42,7 +42,7 @@ func main() {
 // using slice in place of using db
 func getMovies(c *gin.Context) {
 	/*
-		IndentedJSON serializes the given struct as pretty JSON (indented + endlines)
+		IndentedJSON serializes the given struct as pretty JSON (indented + endLines)
 		into the response body. It also sets the Content-Type as "application/json".
 		WARNING: we recommend to use this only for development purposes since printing
 		pretty JSON is more CPU and bandwidth consuming. Use Context.JSON() instead.
