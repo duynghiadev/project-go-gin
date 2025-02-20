@@ -1,5 +1,11 @@
 # Gin Web Server API - cURL Commands
 
+### **What does cURL stand for?**
+
+**cURL** stands for **Client URL** and is a command-line tool used to transfer data to and from a server using various protocols (HTTP, HTTPS, FTP, etc.).
+
+It is widely used for making API requests, downloading files, and testing web services.
+
 ## 1️⃣ GET - Hello World
 
 ```sh
