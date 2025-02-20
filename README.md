@@ -38,8 +38,11 @@ Here is a simple example of how to use Gin to create a basic web server:
 
 ```golang
 package mainimport (
-    "net/http"    "github.com/gin-gonic/gin"
-)func main() {
+    "net/http"
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
     // Create a new Gin router
     router := gin.Default()    // Define a simple GET route
     router.GET("/hello", func(c *gin.Context) {
