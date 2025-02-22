@@ -6,9 +6,9 @@ import (
 )
 
 /*
-	WARNING: if using Google to send emails, less secure apps are no longer
-	allowed to send emails (5-30-22), app password must be used, app passwords
-	are more safe and should be used anyway
+WARNING: if using Google to send emails, less secure apps are no longer
+allowed to send emails (5-30-22), app password must be used, app passwords
+are more safe and should be used anyway
 */
 func (u *User) SendEmail(subject, HTMLbody string) error {
 	// sender data
