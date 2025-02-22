@@ -62,8 +62,10 @@ func main() {
 // auth middleware
 func auth(c *gin.Context) {
 	fmt.Println("auth middleware running")
+
 	session, _ := store.Get(c.Request, "session")
 	fmt.Println("session:", session)
+
 	_, ok := session.Values["user"]
 	if !ok {
 		c.HTML(http.StatusForbidden, "login.html", nil)
@@ -87,16 +89,20 @@ func loginGEThandler(c *gin.Context) {
 // loginPOSThandler verifies login credentials
 func loginPOSThandler(c *gin.Context) {
 	var user User
+
 	user.Username = c.PostForm("username")
 	password := c.PostForm("password")
+
 	err := user.getUserByUsername()
 	if err != nil {
 		fmt.Println("error selecting pswd_hash in db by Username, err:", err)
 		c.HTML(http.StatusUnauthorized, "login.html", gin.H{"message": "check username and password"})
 		return
 	}
+
 	err = bcrypt.CompareHashAndPassword([]byte(user.pswdHash), []byte(password))
 	fmt.Println("err from bcrypt:", err)
+
 	if err == nil {
 		session, _ := store.Get(c.Request, "session")
 		// session struct has field Values map[interface{}]interface{}
@@ -115,6 +121,7 @@ func profileHandler(c *gin.Context) {
 	var user = &User{}
 	val := session.Values["user"]
 	var ok bool
+
 	if user, ok = val.(*User); !ok {
 		fmt.Println("was not of type *User")
 		c.HTML(http.StatusForbidden, "login.html", nil)
