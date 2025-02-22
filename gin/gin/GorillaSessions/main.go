@@ -31,7 +31,7 @@ var store = sessions.NewCookieStore([]byte("super-secret"))
 
 func init() {
 	store.Options.HttpOnly = true // since we are not accessing any cookies w/ JavaScript, set to true
-	store.Options.Secure = true   // requires secuire HTTPS connection
+	store.Options.Secure = true   // requires security HTTPS connection
 	gob.Register(&User{})
 }
 
@@ -39,7 +39,7 @@ func main() {
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*.html")
 	var err error
-	db, err = sql.Open("mysql", "root:super-secret-password@tcp(localhost:3306)/gin_db")
+	db, err = sql.Open("mysql", "root:duynghia123@tcp(127.0.0.1:3306)/gin_db?parseTime=true")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -96,7 +96,7 @@ func loginPOSThandler(c *gin.Context) {
 		return
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.pswdHash), []byte(password))
-	fmt.Println("err from bycrypt:", err)
+	fmt.Println("err from bcrypt:", err)
 	if err == nil {
 		session, _ := store.Get(c.Request, "session")
 		// session struct has field Values map[interface{}]interface{}
