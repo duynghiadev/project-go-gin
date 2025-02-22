@@ -62,7 +62,7 @@ func (u *User) UsernameExists() (exists bool) {
 	return exists
 }
 
-// New creates a new User in the database, is_active set to 0 (false) until email is verfied
+// New creates a new User in the database, is_active set to 0 (false) until email is verified
 func (u *User) New() error {
 	// create hash from password
 	var hash []byte
@@ -79,7 +79,7 @@ func (u *User) New() error {
 	// Go rune data type represent Unicode characters
 	var alphaNumRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
 	emailVerRandRune := make([]rune, 64)
-	// creat a random slice of runes (characters) to create our emailVerPassword (random string of characters)
+	// create a random slice of runes (characters) to create our emailVerPassword (random string of characters)
 	for i := 0; i < 64; i++ {
 		emailVerRandRune[i] = alphaNumRunes[rand.Intn(len(alphaNumRunes)-1)]
 	}
@@ -193,14 +193,14 @@ func (u *User) validateEmail() (statusCode int, err error) {
 		err = errors.New("email address is not reachable, looking for " + res.Suggestion + " instead?")
 		return http.StatusBadRequest, err
 	}
-	// possible return string values: yes, no, unkown
+	// possible return string values: yes, no, unknown
 	if res.Reachable == "no" {
 		err = errors.New("email address is not reachable")
 		return http.StatusBadRequest, err
 	}
-	// check MX records so we know DNS setup properly to recieve emails
+	// check MX records so we know DNS setup properly to receive emails
 	if !res.HasMxRecords {
-		err = errors.New("domain entered not properly setup to recieve emails, MX record not found")
+		err = errors.New("domain entered not properly setup to receive emails, MX record not found")
 		return http.StatusBadRequest, err
 	}
 	return http.StatusOK, nil
