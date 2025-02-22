@@ -1,3 +1,7 @@
+- **Lưu ý:** 3 video số `7, 8, 9` mình phải xem xong khoá mysql trước, để biết cách config server mysql rồi sau đó mới quay lại khoá Golang Gin Web Framework để xem tiếp video `7, 8, 9`
+
+---
+
 [video 7](https://www.youtube.com/watch?v=djU1_308M8E&list=PLDZ_9qD1hkzMdre6oedUdyDTgoJYq-_AY&index=7)
 
 For the MySQL refresher please check out my playlist at [MySQL for Golang Web Dev](https://www.youtube.com/playlist?list=PLDZ_9qD1hkzN0VVRS7cemYtZPutyY8hea)
