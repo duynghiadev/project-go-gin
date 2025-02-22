@@ -21,10 +21,12 @@ func main() {
 	var entropy float64
 	var words []string
 	scanner := bufio.NewScanner(file)
+
 	for scanner.Scan() {
 		words = append(words, scanner.Text())
 	}
 	fmt.Println("len of words:", len(words))
+
 	for _, v := range words {
 		entropy = passwordvalidator.GetEntropy(v)
 		if entropy > minEntropyBits {
