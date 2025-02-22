@@ -60,15 +60,27 @@ w.Write() writes our JSON to the http.ResponseWriter
 */
 func createGopher(w http.ResponseWriter, r *http.Request) {
 	var newGopher gopher
+
+	// Step 1: Decode JSON request body into newGopher struct
 	decoder := json.NewDecoder(r.Body)
 	err := decoder.Decode(&newGopher)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		return // Function exits here if there's an error
 	}
+
+	// Step 2: Defer closing request body (executed at the END of function)
 	defer r.Body.Close()
+
+	// Step 3: Add newGopher to the gophers slice
 	gophers = append(gophers, newGopher)
+
+	// Step 4: Marshal the updated gophers list to JSON
 	GophersJSON, _ := json.Marshal(gophers)
+
+	// Step 5: Set response header and write JSON response
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(GophersJSON)
+
+	// Step 6: Function exits -> `defer r.Body.Close()` is executed here
 }
