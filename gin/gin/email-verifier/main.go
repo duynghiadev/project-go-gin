@@ -43,7 +43,7 @@ func verEmailPostHandler(c *gin.Context) {
 	ret, err := verifier.Verify(email)
 	if err != nil {
 		fmt.Println("verify email address failed, error is: ", err)
-		c.HTML(http.StatusInternalServerError, "ver-email.html", gin.H{"message": "unable to register email addresss, please try again"})
+		c.HTML(http.StatusInternalServerError, "ver-email.html", gin.H{"message": "unable to register email address, please try again"})
 		return
 	}
 
@@ -66,16 +66,16 @@ func verEmailPostHandler(c *gin.Context) {
 		c.HTML(http.StatusBadRequest, "ver-email.html", gin.H{"message": "email address is not reachable, looking for " + ret.Suggestion + " instead?"})
 		return
 	}
-	// possible return string values: yes, no, unkown
+	// possible return string values: yes, no, unknown
 	if ret.Reachable == "no" {
 		fmt.Println("email address is not reachable")
 		c.HTML(http.StatusBadRequest, "ver-email.html", gin.H{"message": "email address was unreachable"})
 		return
 	}
-	// check MX records so we know DNS setup properly to recieve emails
+	// check MX records so we know DNS setup properly to receive emails
 	if !ret.HasMxRecords {
-		fmt.Println("domain entered not properly setup to recieve emails, MX record not found")
-		c.HTML(http.StatusBadRequest, "ver-email.html", gin.H{"message": "domain entered not properly setup to recieve emails, MX record not found"})
+		fmt.Println("domain entered not properly setup to receive emails, MX record not found")
+		c.HTML(http.StatusBadRequest, "ver-email.html", gin.H{"message": "domain entered not properly setup to receive emails, MX record not found"})
 		return
 	}
 	// ... code to register user
