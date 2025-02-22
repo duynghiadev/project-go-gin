@@ -15,7 +15,7 @@ type movie struct {
 	Price    string `json:"price"`
 }
 
-// movies slice for demonstration, really want db for persistance
+// movies slice for demonstration, really want db for persistence
 var movies = []movie{
 	{ID: "1", Title: "The Dark Knight", Director: "Christopher Nolan", Price: "5.99"},
 	{ID: "2", Title: "Tommy Boy", Director: "Peter Segal", Price: "2.99"},
@@ -53,7 +53,7 @@ func main() {
 func middlewareFunc1(c *gin.Context) {
 	fmt.Println("middlewareFunc1 running")
 	// Next should be used only inside middleware.
-	//It executes the pending handlers in the chain inside the calling handler.
+	// It executes the pending handlers in the chain inside the calling handler.
 	c.Next()
 }
 
