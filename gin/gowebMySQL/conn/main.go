@@ -3,40 +3,52 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	f "fmt"
+	"net/http"
 	"os"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	// Open may just validate its arguments without creating a connection to the database.
-	// To verify that the data source name is valid, call Ping.
-	// func Open(driverName, dataSourceName string) (*DB, error)
-	// dataSourceName: username:password@protocol(address)/dbname?param=value
-	//db, err := sql.Open("mysql", "root:password@tcp(localhost:3306)/testdb")
+	// Hardcode the DSN with the password "duynghia123"
+	dsn := "root:duynghia123@tcp(localhost:3306)/testdb"
+	fmt.Println("Connecting with DSN:", dsn) // For debugging
 
-	fmt.Println(os.Getenv("MYSQL_PASSWORD"))
-	pswd := os.Getenv("MYSQL_PASSWORD")
-	db, err := sql.Open("mysql", "root:"+pswd+"@tcp(localhost:3306)/testdb")
-
+	// Open database connection
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
-		f.Println("error validating sql.Open arguments")
-		panic(err.Error())
+		fmt.Println("Error validating sql.Open arguments:", err)
+		os.Exit(1)
 	}
 	defer db.Close()
 
+	// Verify connection
 	err = db.Ping()
 	if err != nil {
-		f.Println("error verifying connection with db.Ping")
-		panic(err.Error())
+		fmt.Println("Error connecting to the database:", err)
+		os.Exit(1)
 	}
 
-	// func (db *DB) Query(query string, args ...interface{}) (*Rows, error)
-	insert, err := db.Query("INSERT INTO `testdb`.`students` (`id`, `firstname`, `lastname`) VALUES ('3', 'Carl', 'Jones');")
+	// Insert data using Exec
+	_, err = db.Exec("INSERT INTO users (firstname, lastname) VALUES ('Carl', 'Jones')")
 	if err != nil {
-		panic(err.Error())
+		fmt.Println("Error executing INSERT statement:", err)
+		os.Exit(1)
 	}
-	defer insert.Close()
-	f.Println("Successful Connection to Database!")
+
+	fmt.Println("Successful Connection and Data Insertion!")
+
+	// Set up HTTP server
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello! The app is running and connected to the database.")
+	})
+
+	// Define the port for the app
+	port := "8080"
+	fmt.Println("Starting server on port", port)
+	err = http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		fmt.Println("Error starting server:", err)
+		os.Exit(1)
+	}
 }
