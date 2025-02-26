@@ -21,8 +21,8 @@
     {{range .}} ID: {{.ID}} Name: {{.Name}}<br />
     Price: {{.Price}}<br />
     Description: {{.Description}}<br />
-    <a href="/update/?idproducts={{.ID}}">Edit</a>
-    <a href="/delete/?idproducts={{.ID}}">Delete</a>
+    <a href="/update?idproducts={{.ID}}">Edit</a>
+    <a href="/delete?idproducts={{.ID}}">Delete</a>
     <br /><br />
     {{end}}
   </body>
