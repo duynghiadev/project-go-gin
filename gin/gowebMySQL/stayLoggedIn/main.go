@@ -121,7 +121,7 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	tpl.ExecuteTemplate(w, "login.html", "Logged Out")
 }
 
-// registerHandler serves form for registring new users
+// registerHandler serves form for registering new users
 func registerHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("*****registerHandler running*****")
 	tpl.ExecuteTemplate(w, "register.html", nil)
