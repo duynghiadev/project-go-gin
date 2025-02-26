@@ -40,7 +40,7 @@ func main() {
 	http.HandleFunc("/registerauth", registerAuthHandler)
 	http.HandleFunc("/about", aboutHandler)
 	http.HandleFunc("/", indexHandler)
-	// // if you are not using gorilla/mux, you need to wrap your handler with context.ClearHandler
+	// if you are not using gorilla/mux, you need to wrap your handler with context.ClearHandler
 	http.ListenAndServe("localhost:8080", context.ClearHandler(http.DefaultServeMux))
 }
 
@@ -53,21 +53,26 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 // loginAuthHandler authenticates user login
 func loginAuthHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("*****loginAuthHandler running*****")
+
 	r.ParseForm()
 	username := r.FormValue("username")
 	password := r.FormValue("password")
 	fmt.Println("username:", username, "password:", password)
+
 	// retrieve password from db to compare (hash) with user supplied password's hash
 	var userID, hash string
 	stmt := "SELECT UserID, Hash FROM bcrypt WHERE Username = ?"
 	row := db.QueryRow(stmt, username)
+
 	err := row.Scan(&userID, &hash)
 	fmt.Println("hash from db:", hash)
+
 	if err != nil {
 		fmt.Println("error selecting Hash in db by Username")
 		tpl.ExecuteTemplate(w, "login.html", "check username and password")
 		return
 	}
+
 	// func CompareHashAndPassword(hashedPassword, password []byte) error
 	// CompareHashAndPassword() returns err with a value of nil for a match
 	err = bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
@@ -89,6 +94,7 @@ func loginAuthHandler(w http.ResponseWriter, r *http.Request) {
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("*****indexHandler running*****")
+
 	session, _ := store.Get(r, "session")
 	_, ok := session.Values["userID"]
 	fmt.Println("ok:", ok)
@@ -179,17 +185,22 @@ func registerAuthHandler(w http.ResponseWriter, r *http.Request) {
 			pswdNoSpaces = false
 		}
 	}
+
 	if 11 < len(password) && len(password) < 60 {
 		pswdLength = true
 	}
+
 	fmt.Println("pswdLowercase:", pswdLowercase, "\npswdUppercase:", pswdUppercase, "\npswdNumber:", pswdNumber, "\npswdSpecial:", pswdSpecial, "\npswdLength:", pswdLength, "\npswdNoSpaces:", pswdNoSpaces, "\nnameAlphaNumeric:", nameAlphaNumeric, "\nnameLength:", nameLength)
+
 	if !pswdLowercase || !pswdUppercase || !pswdNumber || !pswdSpecial || !pswdLength || !pswdNoSpaces || !nameAlphaNumeric || !nameLength {
 		tpl.ExecuteTemplate(w, "register.html", "please check username and password criteria")
 		return
 	}
+
 	// check if username already exists for availability
 	stmt := "SELECT UserID FROM bcrypt WHERE username = ?"
 	row := db.QueryRow(stmt, username)
+
 	var uID string
 	err := row.Scan(&uID)
 	if err != sql.ErrNoRows {
@@ -208,6 +219,7 @@ func registerAuthHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Println("hash:", hash)
 	fmt.Println("string(hash):", string(hash))
+
 	// func (db *DB) Prepare(query string) (*Stmt, error)
 	var insertStmt *sql.Stmt
 	insertStmt, err = db.Prepare("INSERT INTO bcrypt (Username, Hash) VALUES (?, ?);")
@@ -217,14 +229,17 @@ func registerAuthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer insertStmt.Close()
+
 	var result sql.Result
 	//  func (s *Stmt) Exec(args ...interface{}) (Result, error)
 	result, err = insertStmt.Exec(username, hash)
 	rowsAff, _ := result.RowsAffected()
 	lastIns, _ := result.LastInsertId()
+
 	fmt.Println("rowsAff:", rowsAff)
 	fmt.Println("lastIns:", lastIns)
 	fmt.Println("err:", err)
+
 	if err != nil {
 		fmt.Println("error inserting new user")
 		tpl.ExecuteTemplate(w, "register.html", "there was a problem registering account")
